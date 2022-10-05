@@ -7,9 +7,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class Oblig2Test {
 
     ////// Oppgave 1 /////////////////////
-    @org.junit.jupiter.api.Test
-    void oppgave1() {
-        int antallFeil = 0;
+
+     @org.junit.jupiter.api.Test
+
+   void oppgave1() {
+
+
+       int antallFeil = 0;
         Liste<Integer> liste = new DobbeltLenketListe<>();
 
         if (liste.antall() != 0) {
@@ -941,7 +945,7 @@ class Oblig2Test {
     }
 
     //// Oppgave 7 ////////////////////////////
-    @org.junit.jupiter.api.Test
+   /* @org.junit.jupiter.api.Test
     void oppgave7() {
         int antallFeil = 0;
 
@@ -976,7 +980,7 @@ class Oblig2Test {
 
         assertEquals(0, antallFeil, "Du har for mange feil i oppgave 7");
 
-    }
+    }*/
 
     //// Oppgave 8 ////////////////////////////
     @org.junit.jupiter.api.Test
@@ -1174,7 +1178,7 @@ class Oblig2Test {
     }
 
     ////// Oppgave 9 /////////////////////
-    @org.junit.jupiter.api.Test
+   /* @org.junit.jupiter.api.Test
     void oppgave9() {
         int antallFeil = 0;
 
@@ -1266,10 +1270,10 @@ class Oblig2Test {
 
         assertEquals(0, antallFeil, "Du har for mange feil i oppgave 9");
 
-    }
+    }*/
 
     ////// Oppgave 10 /////////////////////
-    @org.junit.jupiter.api.Test
+   /* @org.junit.jupiter.api.Test
     void oppgave10() {
         int antallFeil = 0;
 
@@ -1323,6 +1327,6 @@ class Oblig2Test {
 
         assertEquals(0, antallFeil, "Du har for mange feil i oppgave 10");
 
-    }
+    }*/
 
 }
