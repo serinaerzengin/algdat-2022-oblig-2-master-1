@@ -50,12 +50,24 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public int antall() {
-        throw new UnsupportedOperationException();
+        int antall=0;
+        Node<T> nodecurrent= hode; //setter først at nåverende node er hodenoden.
+        while (nodecurrent!=null) { //så lenge noden vi er på ikke er null så:
+            nodecurrent=nodecurrent.neste; //setter nodecurrent til å være noden vi var på sin neste
+            antall++; //øker antall med 1;
+        }
+
+        return antall;
     }
 
     @Override
     public boolean tom() {
-        throw new UnsupportedOperationException();
+        boolean tom= false;
+        Node<T> nodecurrent= hode;
+        if (nodecurrent==null){ //hvis hode er null så er listen tom, hvis ikke så returnerer den false, at den ikke er tom.
+            tom= true;
+
+        }return tom;
     }
 
     @Override
