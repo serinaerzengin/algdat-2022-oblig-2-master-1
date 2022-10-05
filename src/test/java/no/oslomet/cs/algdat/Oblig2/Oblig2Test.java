@@ -273,6 +273,7 @@ class Oblig2Test {
 
         assertEquals(0, antallFeil, "Du har for mange feil i oppgave 2");
 
+
     }
 
     ////// Oppgave 3 /////////////////////

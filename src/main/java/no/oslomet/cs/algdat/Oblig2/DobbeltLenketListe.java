@@ -144,11 +144,41 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public String toString() {
-        throw new UnsupportedOperationException();
+        StringBuilder s= new StringBuilder(); //tatt fra kompendiet 3.2.2 oppgave 3
+        s.append('['); //append innebygd metode i StringBuilder som legger til mer i strengen
+        if (!tom()){ //hvis den ikke er tom så legger vi inn videre
+            s.append(hode.verdi); // legger inn hode først
+
+            for (Node<T> node = hode.neste; node!=null; node=node.neste){ // så lenge noden ikke er null så legger vi inn nodenes verdier. for hver runde så går vi til neste
+                s.append(',').append(' ').append(node.verdi); //legger inn komma og mellomrom mellom hver node.
+            }
+
+            /*kan også skrive slik isteden for for-løkke
+             p = p.neste;
+             while (p != null){  // tar med resten hvis det er noe mer
+                s.append(',').append(' ').append(p.verdi);
+             p = p.neste;
+             */
+
+        }
+
+        s.append(']');
+        return s.toString();
     }
 
     public String omvendtString() {
-        throw new UnsupportedOperationException();
+        StringBuilder s = new StringBuilder(); // lik som den over, bare vi endrer for-løkken til å gå bakover isteden.
+        s.append('[');
+        if (!tom()){
+            s.append(hale.verdi);
+
+            for (Node<T> node= hale.forrige; node!=null; node= node.forrige){
+                s.append(',').append(' ').append(node.verdi);
+            }
+        }
+
+        s.append(']');
+        return s.toString();
     }
 
     @Override
