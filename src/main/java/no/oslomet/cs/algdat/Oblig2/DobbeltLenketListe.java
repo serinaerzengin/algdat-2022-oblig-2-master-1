@@ -37,11 +37,37 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int endringer;         // antall endringer i listen
 
     public DobbeltLenketListe() {
-        throw new UnsupportedOperationException();
+
     }
 
     public DobbeltLenketListe(T[] a) {
-        throw new UnsupportedOperationException();
+        if (a==null){
+            throw new NullPointerException("Tabellen a er null!!");
+        }
+
+        for(int i = 0; i<a.length; i++){
+
+            if (a[i]!=null){
+
+                if (hode==null){ //hvis hode er null så setter vi første verdi. når det kun er en verdi så er det både hode og hale.
+                    Node<T> node= new Node(a[i], null, null);
+                    hode=node; //node er både hode og hale
+                    hale=node;
+
+                }else{ //hvis ikke hode er null så har vi et hode allerde, og da legger vi inn videre
+                   Node<T> haleFørNyNode= hale;
+                    Node<T> node= new Node(a[i], haleFørNyNode, null); /*lager ny node, den verdien som var hale før vil være den ny noden sin forrige
+                    , og den nye node sin neste vil være null*/
+                    hale= node; //setter noden til å være hale
+                    haleFørNyNode.neste=node;//må si at noden som var hale sist har den nye noden som sin neste
+
+
+                }
+
+
+
+            }
+        }
     }
 
     public Liste<T> subliste(int fra, int til) {
@@ -50,11 +76,12 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public int antall() {
-        int antall=0;
         Node<T> nodecurrent= hode; //setter først at nåverende node er hodenoden.
+
         while (nodecurrent!=null) { //så lenge noden vi er på ikke er null så:
-            nodecurrent=nodecurrent.neste; //setter nodecurrent til å være noden vi var på sin neste
             antall++; //øker antall med 1;
+            nodecurrent=nodecurrent.neste; //setter nodecurrent til å være noden vi var på, sin neste
+
         }
 
         return antall;
@@ -62,12 +89,12 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean tom() {
-        boolean tom= false;
+
         Node<T> nodecurrent= hode;
         if (nodecurrent==null){ //hvis hode er null så er listen tom, hvis ikke så returnerer den false, at den ikke er tom.
-            tom= true;
+           return true;
 
-        }return tom;
+        }return false;
     }
 
     @Override
