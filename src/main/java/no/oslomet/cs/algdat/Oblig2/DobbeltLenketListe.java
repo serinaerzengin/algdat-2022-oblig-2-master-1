@@ -141,7 +141,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean inneholder(T verdi) {
-throw new UnsupportedOperationException();
+        if(indeksTil(verdi)!= -1){ //sjekker om indeksen til nodeverdien finnes, hvis den ikke er lik -1 så finnes den, så vi returnerer true
+            return true;
+        }
+        return false; //hvis den returnerer -1 så vil den returnere false
+
 
     }
 
