@@ -87,11 +87,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     public Liste<T> subliste(int fra, int til) {
-        fratilKontroll(antall,fra,til);
+        fratilKontroll(antall,fra,til);                 //Sjekker at fra til og antall er gyldig intervall
         Liste <T> liste = new DobbeltLenketListe<>();
         for(int i = fra;i<til;i++){
-            T verdi = hent(i);
-            liste.leggInn(verdi);
+            T verdi = hent(i);                          //henter verdien på riktig indeks
+            liste.leggInn(verdi);                       // legger til i sublista
         }
 
         return liste;
@@ -165,7 +165,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     public T hent(int indeks) {
         indeksKontroll(indeks,false);           //sjekker indeksen
         // Node <T> node = finnNode(indeks);               //finner noden
-        return finnNode(indeks).verdi;                              // returnerer verdien til noden vi fant
+        return finnNode(indeks).verdi;                     // returnerer verdien til noden vi fant
     }
 
     @Override
@@ -176,13 +176,12 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     public T oppdater(int indeks, T nyverdi) {
         if (nyverdi==null){
-            Objects.requireNonNull(nyverdi);
-            throw new NullPointerException("feil");
+            Objects.requireNonNull(nyverdi,"feil");         //hvis verdien er null, exepction
 
         }
         indeksKontroll(indeks,false);           //sjekker indeksen
         Node <T> peker = finnNode(indeks);           //henter node som skal erstattes
-        T gammelverdi = peker.verdi;
+        T gammelverdi = peker.verdi;                   //setter noen som var der før til gammelverdi
         peker.verdi=nyverdi;                         //erstatter med nyverdi
         endringer++;
         return gammelverdi;                         // returnerer gammelverdi
