@@ -189,12 +189,64 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean fjern(T verdi) {
-        throw new UnsupportedOperationException();
+        if(verdi==null){            //Hvis verdien er null, finnes den ikke i lista
+            return false;           // Da returnerer vi null
+        }
+
+
+        if(inneholder(verdi)){
+            int indeks= indeksTil(verdi);
+            T fjernet = fjern(indeks);
+            if(fjernet.equals(verdi)){
+                return true;
+            }
+        }
+
+        endringer++;
+        antall--;
+        return false;
+
     }
 
     @Override
     public T fjern(int indeks) {
-        throw new UnsupportedOperationException();
+
+        if(hode==null){                 // hvis listen er tom
+            throw new IndexOutOfBoundsException("Listen er tom!");
+        }
+        if(antall<=indeks || indeks<0){         //hvis indeksen ikke finnes
+            throw new IndexOutOfBoundsException("Indeksen finnes ikke!");
+        }
+        Node <T> node;
+        Node <T> gammelnode;        //for å huske og kunne retunere noden vi slettet
+        if (antall==1){             //hvis det bare er et element igjen i lista
+            gammelnode=hode;        //Da er det bare hodet igjen, lagrer det slik at vi kan retunere
+            hode=null;              //sletter pekerne, slik at listen blir tom
+            hale=null;
+
+        }
+        else if(indeks == 0){       //Hvis vi skal slette første node (hode)
+            gammelnode=hode;
+            node=hode.neste;
+            hode=node;
+            node.forrige=null;
+
+        }
+        else if(indeks == antall-1){        //hvis vi skal slette siste node (hale)
+            gammelnode=hale;
+            node = hale.forrige;
+            hale=node;
+            hale.neste=null;
+        }
+        else{                               //hvis vi skal slette en node midt i.
+            node = finnNode(indeks);        // finner noden med finnNode
+            gammelnode=node;
+            node.forrige.neste=node.neste;
+            node.neste.forrige=node.forrige;
+        }
+        endringer++;
+        antall--;
+        return gammelnode.verdi;            //returnerer noden vi slettet.
     }
 
     @Override
