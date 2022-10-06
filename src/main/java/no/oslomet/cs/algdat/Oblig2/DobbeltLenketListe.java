@@ -141,7 +141,8 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean inneholder(T verdi) {
-        throw new UnsupportedOperationException();
+throw new UnsupportedOperationException();
+
     }
 
     private Node<T> finnNode(int indeks) {
@@ -170,7 +171,20 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public int indeksTil(T verdi) {
-        throw new UnsupportedOperationException();
+        if(verdi==null){ //sjekker om verdi er null, om den er så returnerer vi -1
+            return -1;
+        }
+
+        for(int i= 0; i<antall;i++){ //starter fra 0 går gjennom alle
+            if (hent(i).equals(verdi)){ // når verien til node på plass i er det samme som verdien vi fikk inn som parameter så retunerer vi i
+                return i; // så denne vil returnere indeksen med en gang vi finner en verdi som er lik altså den første hvis det er flere av samme verdi
+
+            }
+
+
+            }return -1; //hvis vi ikke har funnet noen som er like så finnes ikke verdien så vi retunerer -1
+
+
     }
 
     @Override
