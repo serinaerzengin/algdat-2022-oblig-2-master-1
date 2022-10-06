@@ -192,61 +192,48 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         if(verdi==null){            //Hvis verdien er null, finnes den ikke i lista
             return false;           // Da returnerer vi null
         }
-
-
-        if(inneholder(verdi)){
-            int indeks= indeksTil(verdi);
-            T fjernet = fjern(indeks);
-            if(fjernet.equals(verdi)){
-                return true;
+        Node <T> node=hode;         // definerer ny node lik hode
+        while(node!=null){          // kjører igjennom while løkka frem til node er null, da hopper den ut fordi verdien ikke finnes og node = null;
+            if (node.verdi.equals(verdi)) {     //hvis verdien finnes i noden
+                break;                          // så har vi funnet noden vi skal slette og vi kan oppe ut
             }
+            node = node.neste;
         }
 
-        endringer++;
-        antall--;
-        return false;
-
-    }
-
-    @Override
-    public T fjern(int indeks) {
-
-        if(hode==null){                 // hvis listen er tom
-            throw new IndexOutOfBoundsException("Listen er tom!");
+        if(node==null){
+            return false;
         }
-        if(antall<=indeks || indeks<0){         //hvis indeksen ikke finnes
-            throw new IndexOutOfBoundsException("Indeksen finnes ikke!");
-        }
-        Node <T> node;
-        Node <T> gammelnode;        //for å huske og kunne retunere noden vi slettet
-        if (antall==1){             //hvis det bare er et element igjen i lista
-            gammelnode=hode;        //Da er det bare hodet igjen, lagrer det slik at vi kan retunere
-            hode=null;              //sletter pekerne, slik at listen blir tom
+
+        else if (antall==1){
+            hode=null;
             hale=null;
 
         }
-        else if(indeks == 0){       //Hvis vi skal slette første node (hode)
-            gammelnode=hode;
+        else if(node==hode){
             node=hode.neste;
             hode=node;
             node.forrige=null;
 
         }
-        else if(indeks == antall-1){        //hvis vi skal slette siste node (hale)
-            gammelnode=hale;
+        else if(node == hale){
             node = hale.forrige;
             hale=node;
             hale.neste=null;
         }
-        else{                               //hvis vi skal slette en node midt i.
-            node = finnNode(indeks);        // finner noden med finnNode
-            gammelnode=node;
+        else{
             node.forrige.neste=node.neste;
             node.neste.forrige=node.forrige;
         }
+
         endringer++;
         antall--;
-        return gammelnode.verdi;            //returnerer noden vi slettet.
+        return true;
+
+    }
+
+    @Override
+    public T fjern(int indeks) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
