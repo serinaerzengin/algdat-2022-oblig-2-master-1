@@ -21,3 +21,8 @@ når vi skulle lage den dobbeltlinket listen så er det først en test for om li
 
 I oppgave 2 så brukte vi koden fra kompiendiet 3.2.2 oppgave 3. Append er en innebygd metode i StringBuilder som legger til mer i strengen. Vi sjekker først om listen er tom, om den ikke er det så legger vi først inn hode noden, deretter lagde vi en forløkke, og så lenge noden ikke er null så legger vi inn nodenes verdi. For hver runde går vi til neste. legger inn komma og mellomrom mellom hver node. Gjør det samme med omventstring bare at vi endrer for-løkken til å gå bakover isteden.
 I legg inn metoden sjekker vi først om verdi er null, om den er null kaster vi en NullPointerExeption. Sjekker også om tabellen er tom, om den er tom så setter vi første verdi til å være både hode og hale (kun en verdi). Hvis den allerde har hode legger vi inn videre. tar vare på den gamle halen.... samme forklaring som i oppgave 1.
+
+I oppgave 3.......
+
+I oppgave 4 så laget vi indeksTil metoden ved å først sjekke om verdi er null, om den er null så returnerer vi -1. Deretter lagde vi for-løkke som startet fra 0 og går gjennom alle elementer. Når verdien til node på plass i er det samme som verdien fikk inn som parameter, så returnerer vi i. Så den vil returnere ideksen med en gang den finner verdien som er lik, altså den første hvis det er flere av samme verdi. hvis den ikke har funnet noe lik verdi når den har gått gjennom hele løkken så  finnes ikke verdien og vi returnerer -1.
+I inneholder metoden så sjekker vi først om indeksen til nodeverdien finnes, dette gjør vi ved hjelp indeksTil metoden. hvis indeksen til verdien vi får inn ikke er lik -1 så finnes den, så vi returnerer true. Hvis den returnerer -1 derimot så vil den returnere false, fordi da finnes ikke verdien.
