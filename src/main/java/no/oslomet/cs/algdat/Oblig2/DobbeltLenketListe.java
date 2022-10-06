@@ -152,19 +152,19 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private Node<T> finnNode(int indeks) {
         Node<T> node;
 
-        if (indeks <= antall / 2) {
-            node = hode;
-            for (int i = 0; i < indeks; i++) {
-                node = node.neste;
+        if (indeks <= antall / 2) {     //begynner fra venstre ved hode
+            node = hode;                //begynner fra hode
+            for (int i = 0; i < indeks; i++) {      //Stopper når vi har kommet til indek
+                node = node.neste;                  //når løkka stopper så er vi på riktig indeks. 
             }
         }
-        else {
-            node = hale;
-            for (int i = antall - 1; i > indeks; i--) {
-                node =  node.forrige;
+        else {                      //begynner fra høyre ved hale
+            node = hale;            //definerer hale, begynner bakerst
+            for (int i = antall - 1; i > indeks; i--) {     //holder på frem til vi har kommet til indeksen.
+                node =  node.forrige;                       //når vi er ferdige med forløkka, peker noden på riktig indeks/node.
             }
         }
-        return node;
+        return node;                //vi retunerer noden som er på riktig indeks
     }
     @Override
     public T hent(int indeks) {
