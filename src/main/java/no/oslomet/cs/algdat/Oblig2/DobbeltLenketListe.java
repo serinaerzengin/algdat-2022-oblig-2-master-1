@@ -273,27 +273,34 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public void nullstill() {
-        //Metode 1
-        Node<T> node = hode;
-        Node<T> neste;
+        //Metode 1          Brukte 6 ms og tregest
+        /*                  //Kopierte ut kode 1 for å teste den andre koden, og dette var tregest så lot den bli sånn
+        Node<T> node = hode;                    //finner hode, altså starten
+        Node<T> neste;                          //og får definert en variabel neste
         for (int i = 0; i < antall; i++) {
-            neste = node.neste;
-            node.neste = null;
-            node = neste;
+            neste = node.neste;                 //lagrer neste så vi vet hvor vi skal hen neste
+            node.neste = null;                  // Setter neste pekeren til null
+            node = neste;                       // flytter oss videre i lista
             endringer++;
         }
-        hode = null;
-        hale = null;
-        antall = 0;
+        hode = null;                            //sørger for at hode blit null
+        hale = null;                            // sørger for at halen blir null
+        antall = 0;                             //listen er nå tom og antall må være 0
 
-        //Metode 2
-        for (int i = 0; i < antall; i++) {
-            fjern(0);
+         */
+
+        //Metode 2          Brukte 0 ms og raskest
+        long tid = System.currentTimeMillis();          //makrerer tiden - tatt fra test filen hvor dere måler kode. (oppgave 3a)
+        for (int i = 0; i < antall; i++) {              //forløkke så vi får gått igjennom hele listen
+            fjern(0);                           //sletter den første noen hele
             endringer++;
         }
-        hode=null;
+        hode=null;                                      //hode og hale settes til null
         hale=null;
         antall=0;
+        tid = System.currentTimeMillis() - tid;         //slutter tiden
+        System.out.println("tid: "+tid);                //skriver ut tiden for å se hva det ble
+
     }
     @Override
     public String toString() {
