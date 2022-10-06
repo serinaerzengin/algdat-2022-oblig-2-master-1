@@ -149,7 +149,7 @@ class Oblig2Test {
     ////// Oppgave 2 /////////////////////
     @org.junit.jupiter.api.Test
     void oppgave2() {
-        int antallFeil = 0;
+         int antallFeil = 0;
 
         DobbeltLenketListe<Integer> liste = new DobbeltLenketListe<>();
 
@@ -279,7 +279,7 @@ class Oblig2Test {
     ////// Oppgave 3 /////////////////////
     @org.junit.jupiter.api.Test
     void oppgave3() {
-        int antallFeil = 0;
+         int antallFeil = 0;
 
         Liste<Integer> testliste = new DobbeltLenketListe<>();
         for (int i = 0; i < 100000; i++) testliste.leggInn(i);
@@ -507,6 +507,8 @@ class Oblig2Test {
         assertEquals(0, antallFeil, "Du har for mange feil i oppgave 3");
 
     }
+
+
 
     ////// Oppgave 4 /////////////////////
     @org.junit.jupiter.api.Test

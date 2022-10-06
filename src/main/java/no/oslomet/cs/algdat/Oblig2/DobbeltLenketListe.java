@@ -6,6 +6,7 @@ package no.oslomet.cs.algdat.Oblig2;
 
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.Objects;
 
 
 public class DobbeltLenketListe<T> implements Liste<T> {
@@ -36,8 +37,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int antall;            // antall noder i listen
     private int endringer;         // antall endringer i listen
 
-    public DobbeltLenketListe() {
-
+    public DobbeltLenketListe() { //konstruktør
+        hode = null;
+        hale = null;
+        endringer = 0;
+        antall = 0;
     }
 
     public DobbeltLenketListe(T[] a) {
@@ -60,14 +64,26 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                     , og den nye node sin neste vil være null*/
                     hale= node; //setter noden til å være hale
                     haleFørNyNode.neste=node;//må si at noden som var hale sist har den nye noden som sin neste
-
-
                 }
-
-
-
+                antall++; //øker antall
+                endringer++; //øker endringer
             }
         }
+    }
+
+    private static void fratilKontroll(int antall, int fra, int til) //kopiert fra kompendiet programkode 1.2.3 a) endret tabelllengde til antall.
+    {
+        if (fra < 0)                                  // fra er negativ
+            throw new IndexOutOfBoundsException
+                    ("fra(" + fra + ") er negativ!");
+
+        if (til > antall)                          // til er utenfor tabellen
+            throw new IndexOutOfBoundsException
+                    ("til(" + til + ") > antall(" + antall + ")");
+
+        if (fra > til)                                // fra er større enn til
+            throw new IllegalArgumentException
+                    ("fra(" + fra + ") > til(" + til + ") - illegalt intervall!");
     }
 
     public Liste<T> subliste(int fra, int til) {
@@ -75,31 +91,37 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     @Override
-    public int antall() {
-        Node<T> nodecurrent= hode; //setter først at nåverende node er hodenoden.
-
-        while (nodecurrent!=null) { //så lenge noden vi er på ikke er null så:
-            antall++; //øker antall med 1;
-            nodecurrent=nodecurrent.neste; //setter nodecurrent til å være noden vi var på, sin neste
-
-        }
-
+    public int antall() { //
         return antall;
     }
 
     @Override
     public boolean tom() {
-
-        Node<T> nodecurrent= hode;
-        if (nodecurrent==null){ //hvis hode er null så er listen tom, hvis ikke så returnerer den false, at den ikke er tom.
-           return true;
-
-        }return false;
+        return antall == 0;
     }
 
     @Override
     public boolean leggInn(T verdi) {
-        throw new UnsupportedOperationException();
+        if (verdi==null){ //sjekker om verdi er null
+            throw new NullPointerException();
+        }
+        if (tom()){ //hvis den er tom så setter vi første verdi til å vøre hode og hale (kun en verdi).
+            Node<T> nyNode= new Node<T>(verdi,null,null);
+            hode=nyNode;
+            hale=nyNode;
+            antall++; //øker
+            endringer++; //øker
+            return true;
+        }else { //legger inn resten
+            Node<T> halefør = hale; //tar vare på gammel hale slik at vi kan fikse pekeren etterpå
+            Node<T> nyNode = new Node<T>(verdi,halefør,null); //samme forklaring som over
+            antall++; //øker
+            endringer++; //øker
+            halefør.neste = nyNode;
+            hale = nyNode;
+            return true;
+        }
+
     }
 
     @Override
@@ -112,6 +134,9 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         throw new UnsupportedOperationException();
     }
 
+    private Node<T> finnNode(int indeks){
+        throw new UnsupportedOperationException();
+    }
     @Override
     public T hent(int indeks) {
         throw new UnsupportedOperationException();
@@ -125,6 +150,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     public T oppdater(int indeks, T nyverdi) {
         throw new UnsupportedOperationException();
+
     }
 
     @Override
