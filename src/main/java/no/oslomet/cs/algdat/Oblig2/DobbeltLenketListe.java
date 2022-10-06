@@ -100,6 +100,8 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         return antall == 0;
     }
 
+
+
     @Override
     public boolean leggInn(T verdi) {
         if (verdi==null){ //sjekker om verdi er null
@@ -134,12 +136,28 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         throw new UnsupportedOperationException();
     }
 
-    private Node<T> finnNode(int indeks){
-        throw new UnsupportedOperationException();
+    private Node<T> finnNode(int indeks) {
+        Node<T> node;
+
+        if (indeks <= antall / 2) {
+            node = hode;
+            for (int i = 0; i < indeks; i++) {
+                node = node.neste;
+            }
+        }
+        else {
+            node = hale;
+            for (int i = antall - 1; i > indeks; i--) {
+                node =  node.forrige;
+            }
+        }
+        return node;
     }
     @Override
     public T hent(int indeks) {
-        throw new UnsupportedOperationException();
+        indeksKontroll(indeks,false);           //sjekker indeksen
+        // Node <T> node = finnNode(indeks);               //finner noden
+        return finnNode(indeks).verdi;                              // returnerer verdien til noden vi fant
     }
 
     @Override
