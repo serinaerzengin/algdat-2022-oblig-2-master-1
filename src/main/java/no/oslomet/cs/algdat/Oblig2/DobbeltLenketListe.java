@@ -195,40 +195,39 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         Node <T> node=hode;         // definerer ny node lik hode
         while(node!=null){          // kjører igjennom while løkka frem til node er null, da hopper den ut fordi verdien ikke finnes og node = null;
             if (node.verdi.equals(verdi)) {     //hvis verdien finnes i noden
-                break;                          // så har vi funnet noden vi skal slette og vi kan oppe ut
+                break;                          // så har vi funnet noden vi skal slette og vi kan hoppe ut
             }
             node = node.neste;
         }
 
-        if(node==null){
-            return false;
+        if(node==null){                 //hvis noe er null så finnes den ikke i lista
+            return false;               //fordi da har while løkka gått så mange runder at node har blitt null, uten å ha funnet noe som er like verdien
         }
 
-        else if (antall==1){
-            hode=null;
-            hale=null;
+        else if (antall==1){            //hvis antallet er 1, så er det kun et element igjen og vi sletter det.
+            hode=null;                  // både hode og hale settes til null, slik at de ikke peker på noe
+            hale=null;                  // og listen vår er da tom
 
         }
-        else if(node==hode){
+        else if(node==hode){            //hvis vi skal slette første element (hode)
             node=hode.neste;
             hode=node;
             node.forrige=null;
 
         }
-        else if(node == hale){
+        else if(node == hale){          //hvis vi skal slette siste element (hale)
             node = hale.forrige;
-            hale=node;
-            hale.neste=null;
+            hale=node;                  // den nye halen er det som var halen sin forrige før
+            hale.neste=null;            // den skal peke på null og ikke gamle halen
         }
-        else{
-            node.forrige.neste=node.neste;
+        else{                                   //hvis vi skal slette en node midt i listen
+            node.forrige.neste=node.neste;      //legger pekerne riktig
             node.neste.forrige=node.forrige;
         }
 
         endringer++;
         antall--;
-        return true;
-
+        return true;                //vi har klart å slette elementet
     }
 
     @Override
