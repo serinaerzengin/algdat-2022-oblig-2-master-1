@@ -4,9 +4,7 @@ package no.oslomet.cs.algdat.Oblig2;
 ////////////////// class DobbeltLenketListe //////////////////////////////
 
 
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Objects;
+import java.util.*;
 
 
 public class DobbeltLenketListe<T> implements Liste<T> {
@@ -403,11 +401,14 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public Iterator<T> iterator() {
-        throw new UnsupportedOperationException();
+        DobbeltLenketListeIterator iterator = new DobbeltLenketListeIterator();
+        return iterator;
     }
 
     public Iterator<T> iterator(int indeks) {
-        throw new UnsupportedOperationException();
+        indeksKontroll(indeks,false);
+        DobbeltLenketListeIterator iterator = new DobbeltLenketListeIterator(indeks);
+        return iterator;
     }
 
     private class DobbeltLenketListeIterator implements Iterator<T> {
@@ -422,7 +423,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }
 
         private DobbeltLenketListeIterator(int indeks) {
-            throw new UnsupportedOperationException();
+            fjernOK = false;  // likt som over
+            iteratorendringer = endringer;  // likt som over
+
+            denne = hode;   // for å ha en start verdi
+            for(int i=1;i<indeks;i++){      //for løkka stopper når man er på riktig indeks
+                denne=denne.neste;
+            }
         }
 
         @Override
@@ -432,7 +439,16 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         @Override
         public T next() {
-            throw new UnsupportedOperationException();
+            if(iteratorendringer!=endringer){
+                throw new ConcurrentModificationException("Iterator endringer er ikke lik endringer");
+            }
+            if(!hasNext()){
+                throw new NoSuchElementException("Det er ikke flere igjen i listen");
+            }
+            fjernOK=true;
+            T verdi=denne.verdi;
+            denne=denne.neste;
+            return verdi;
         }
 
         @Override
