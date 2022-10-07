@@ -401,13 +401,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public Iterator<T> iterator() {
-        DobbeltLenketListeIterator iterator = new DobbeltLenketListeIterator();
+        DobbeltLenketListeIterator iterator = new DobbeltLenketListeIterator(); //lager instans av iterator
         return iterator;
     }
 
     public Iterator<T> iterator(int indeks) {
-        indeksKontroll(indeks,false);
-        DobbeltLenketListeIterator iterator = new DobbeltLenketListeIterator(indeks);
+        indeksKontroll(indeks,false);           //sjekker at indeksen er gyldig
+        DobbeltLenketListeIterator iterator = new DobbeltLenketListeIterator(indeks);           //lager instans av iterator
         return iterator;
     }
 
@@ -417,14 +417,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         private int iteratorendringer;
 
         private DobbeltLenketListeIterator() {
-            denne = hode;     // p starter på den første i listen
-            fjernOK = false;  // blir sann når next() kalles
+            denne = hode;     // starter på den første i listen
+            fjernOK = false;  // endres til sann når next() kalles
             iteratorendringer = endringer;  // teller endringer
         }
 
         private DobbeltLenketListeIterator(int indeks) {
-           indeksKontroll(indeks,false);
-           denne=finnNode(indeks);
+           denne=finnNode(indeks);                      //finner noden den skal starte på ved hjelp av finnNode
             fjernOK = false;  // likt som over
             iteratorendringer = endringer;  // likt som over
 
@@ -437,15 +436,15 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         @Override
         public T next() {
-            if(iteratorendringer!=endringer){
+            if(iteratorendringer!=endringer){       //hvis endringene ikke er likt blir det exception
                 throw new ConcurrentModificationException("Iterator endringer er ikke lik endringer");
             }
-            if(!hasNext()){
+            if(!hasNext()){                         //hvis listen er tom
                 throw new NoSuchElementException("Det er ikke flere igjen i listen");
             }
             fjernOK=true;
-            T verdi=denne.verdi;
-            denne=denne.neste;
+            T verdi=denne.verdi;                    // lagrer verdien til "denne" før vi endrer node, slik at vi kan returere verdein
+            denne=denne.neste;                      // endrer noden til neste node
             return verdi;
         }
 
