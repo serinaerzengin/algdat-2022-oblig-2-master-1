@@ -139,39 +139,39 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         if (verdi==null){ //sjekker om verdi er null
             throw new NullPointerException();
         }
-        if (indeks<0 || indeks>antall){
+        if (indeks<0 || indeks>antall){ //sjekker om indeks er negativ eller større enn antall
             throw new IndexOutOfBoundsException("indeks er negativ eller større enn antall");
         }
 
 
         else{
-            if (tom()){ //hvis tom så er veriden både hode og hale
-                Node<T> nyNode= new Node<T>(verdi,null,null);
-                hode=nyNode;
-                hale=nyNode;
+            if (tom()){ //hvis tom så er verdien både hode og hale
+                Node<T> nyNode= new Node<T>(verdi,null,null); //forrige og neste til verdien bli null fordi det kun er en verdi
+                hode=nyNode; //oppdaterer hode
+                hale=nyNode; //oppdaterer hale
                 antall++; //øker
                 endringer++; //øker
-            }else if (indeks==0){
-                Node<T> hodefør = hode;
-                Node<T> nyNode= new Node<T>(verdi,null,hodefør);
-                hode=nyNode;
-                hodefør.forrige=hode;
+            }else if (indeks==0){ // hvis den skal legges inn først så blir dette det nye hode.
+                Node<T> hodefør = hode; //tar vare på den som var hode før
+                Node<T> nyNode= new Node<T>(verdi,null,hodefør); //dens forrige blir null sidne den er hode, og dens neste er den som var hode før
+                hode=nyNode; //oppdaterer hode
+                hodefør.forrige=hode; //må huske å sette at den som var hode før har det nye hode som sin forrige
                 antall++; //øker
                 endringer++; //øker
-            }else if (indeks==antall-1){
-                Node<T> halefør = hale;
-                Node<T> nyNode= new Node<T>(verdi,halefør,null);
-                hale=nyNode;
-                halefør.neste = nyNode;
+            }else if (indeks==antall){ //hvis den skal legges inn sist så blir det den nye halen. den som var hale før blir den ny halens forrige osv
+                Node<T> halefør = hale; //tar vare på den som var hale før
+                Node<T> nyNode= new Node<T>(verdi,halefør,null); // den som var hale før blir den ny verdien sin forrige, og verdien sin neste peker på null.
+                hale=nyNode; //oppdaterer hale
+                halefør.neste = nyNode; //den nye noden blir den gamle halen sin neste.
                 antall++; //øker
                 endringer++; //øker
-            }else{
-                Node<T> p = finnNode(indeks-1);
-                Node<T> r = finnNode(indeks+1);
-                Node<T> nyNode= new Node<T>(verdi,p,r);
-                p.neste=nyNode;
-                r.forrige=nyNode;
-                antall++; //øker
+            }else{ // om det ikke er noen av de
+                Node<T> p = finnNode(indeks);//den som allerde står på indeksen som den skal inn i blir nynodens forrige. vi tar vare på denne
+                Node<T> r = p.forrige;//den som står foran p blir nynodens neste.
+                Node<T> nyNode= new Node<T>(verdi,r,p);
+                p.forrige=nyNode; //oppdaterer forrige og neste peker til p og r
+                r.neste=nyNode;
+                antall++;
                 endringer++; //øker
             }
 
