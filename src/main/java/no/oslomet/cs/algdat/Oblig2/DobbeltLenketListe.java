@@ -165,9 +165,9 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 halefør.neste = nyNode; //den nye noden blir den gamle halen sin neste.
                 antall++; //øker
                 endringer++; //øker
-            }else{ // om det ikke er noen av de
-                Node<T> p = finnNode(indeks);//den som allerde står på indeksen som den skal inn i blir nynodens forrige. vi tar vare på denne
-                Node<T> r = p.forrige;//den som står foran p blir nynodens neste.
+            }else{ // om det ikke er noen av de så skal den legges mellom to noder.
+                Node<T> p = finnNode(indeks);//den som allerde står på indeksen som den skal inn i blir nynodens neste. vi tar vare på denne
+                Node<T> r = p.forrige;//den som står foran p blir nynodens forrige.
                 Node<T> nyNode= new Node<T>(verdi,r,p);
                 p.forrige=nyNode; //oppdaterer forrige og neste peker til p og r
                 r.neste=nyNode;
