@@ -194,19 +194,19 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private Node<T> finnNode(int indeks) {
         Node<T> node;
 
-        if (indeks <= antall / 2) {
-            node = hode;
-            for (int i = 0; i < indeks; i++) {
-                node = node.neste;
+        if (indeks <= antall / 2) {     //begynner fra venstre ved hode
+            node = hode;                //begynner fra hode
+            for (int i = 0; i < indeks; i++) {      //Stopper når vi har kommet til indek
+                node = node.neste;                  //når løkka stopper så er vi på riktig indeks. 
             }
         }
-        else {
-            node = hale;
-            for (int i = antall - 1; i > indeks; i--) {
-                node =  node.forrige;
+        else {                      //begynner fra høyre ved hale
+            node = hale;            //definerer hale, begynner bakerst
+            for (int i = antall - 1; i > indeks; i--) {     //holder på frem til vi har kommet til indeksen.
+                node =  node.forrige;                       //når vi er ferdige med forløkka, peker noden på riktig indeks/node.
             }
         }
-        return node;
+        return node;                //vi retunerer noden som er på riktig indeks
     }
     @Override
     public T hent(int indeks) {
@@ -249,19 +249,119 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean fjern(T verdi) {
-        throw new UnsupportedOperationException();
+        if(verdi==null){            //Hvis verdien er null, finnes den ikke i lista
+            return false;           // Da returnerer vi null
+        }
+        Node <T> node=hode;         // definerer ny node lik hode
+        while(node!=null){          // kjører igjennom while løkka frem til node er null, da hopper den ut fordi verdien ikke finnes og node = null;
+            if (node.verdi.equals(verdi)) {     //hvis verdien finnes i noden
+                break;                          // så har vi funnet noden vi skal slette og vi kan hoppe ut
+            }
+            node = node.neste;
+        }
+
+        if(node==null){                 //hvis noe er null så finnes den ikke i lista
+            return false;               //fordi da har while løkka gått så mange runder at node har blitt null, uten å ha funnet noe som er like verdien
+        }
+
+        else if (antall==1){            //hvis antallet er 1, så er det kun et element igjen og vi sletter det.
+            hode=null;                  // både hode og hale settes til null, slik at de ikke peker på noe
+            hale=null;                  // og listen vår er da tom
+
+        }
+        else if(node==hode){            //hvis vi skal slette første element (hode)
+            node=hode.neste;
+            hode=node;
+            node.forrige=null;
+
+        }
+        else if(node == hale){          //hvis vi skal slette siste element (hale)
+            node = hale.forrige;
+            hale=node;                  // den nye halen er det som var halen sin forrige før
+            hale.neste=null;            // den skal peke på null og ikke gamle halen
+        }
+        else{                                   //hvis vi skal slette en node midt i listen
+            node.forrige.neste=node.neste;      //legger pekerne riktig
+            node.neste.forrige=node.forrige;
+        }
+
+        endringer++;
+        antall--;
+        return true;                //vi har klart å slette elementet
     }
 
     @Override
     public T fjern(int indeks) {
-        throw new UnsupportedOperationException();
+
+        if(hode==null){                 // hvis listen er tom
+            throw new IndexOutOfBoundsException("Listen er tom!");
+        }
+        if(antall<=indeks || indeks<0){         //hvis indeksen ikke finnes
+            throw new IndexOutOfBoundsException("Indeksen finnes ikke!");
+        }
+        Node <T> node;
+        Node <T> gammelnode;        //for å huske og kunne retunere noden vi slettet
+        if (antall==1){             //hvis det bare er et element igjen i lista
+            gammelnode=hode;        //Da er det bare hodet igjen, lagrer det slik at vi kan retunere
+            hode=null;              //sletter pekerne, slik at listen blir tom
+            hale=null;
+
+        }
+        else if(indeks == 0){       //Hvis vi skal slette første node (hode)
+            gammelnode=hode;
+            node=hode.neste;
+            hode=node;
+            node.forrige=null;
+
+        }
+        else if(indeks == antall-1){        //hvis vi skal slette siste node (hale)
+            gammelnode=hale;
+            node = hale.forrige;
+            hale=node;
+            hale.neste=null;
+        }
+        else{                               //hvis vi skal slette en node midt i.
+            node = finnNode(indeks);        // finner noden med finnNode
+            gammelnode=node;
+            node.forrige.neste=node.neste;
+            node.neste.forrige=node.forrige;
+        }
+        endringer++;
+        antall--;
+        return gammelnode.verdi;            //returnerer noden vi slettet.
     }
 
     @Override
     public void nullstill() {
-        throw new UnsupportedOperationException();
-    }
+        //Metode 1          Brukte 6 ms og tregest
+        /*                  //Kopierte ut kode 1 for å teste den andre koden, og dette var tregest så lot den bli sånn
+        Node<T> node = hode;                    //finner hode, altså starten
+        Node<T> neste;                          //og får definert en variabel neste
+        for (int i = 0; i < antall; i++) {
+            neste = node.neste;                 //lagrer neste så vi vet hvor vi skal hen neste
+            node.neste = null;                  // Setter neste pekeren til null
+            node = neste;                       // flytter oss videre i lista
+            endringer++;
+        }
+        hode = null;                            //sørger for at hode blit null
+        hale = null;                            // sørger for at halen blir null
+        antall = 0;                             //listen er nå tom og antall må være 0
 
+         */
+
+        //Metode 2          Brukte 0 ms og raskest
+        long tid = System.currentTimeMillis();          //makrerer tiden - tatt fra test filen hvor dere måler kode. (oppgave 3a)
+        for (int i = 0; i < antall; i++) {              //forløkke så vi får gått igjennom hele listen
+            fjern(0);                           //sletter den første noen hele
+            endringer++;
+        }
+        hode=null;                                      //hode og hale settes til null
+        hale=null;
+        antall=0;
+        tid = System.currentTimeMillis() - tid;         //slutter tiden
+        System.out.println("tid: "+tid);                //skriver ut tiden for å se hva det ble
+
+    }
     @Override
     public String toString() {
         StringBuilder s= new StringBuilder(); //tatt fra kompendiet 3.2.2 oppgave 3
