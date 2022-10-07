@@ -423,13 +423,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }
 
         private DobbeltLenketListeIterator(int indeks) {
+           indeksKontroll(indeks,false);
+           denne=finnNode(indeks);
             fjernOK = false;  // likt som over
             iteratorendringer = endringer;  // likt som over
 
-            denne = hode;   // for å ha en start verdi
-            for(int i=1;i<indeks;i++){      //for løkka stopper når man er på riktig indeks
-                denne=denne.neste;
-            }
         }
 
         @Override
