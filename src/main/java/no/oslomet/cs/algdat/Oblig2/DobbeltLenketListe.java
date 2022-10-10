@@ -209,7 +209,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     public T hent(int indeks) {
         indeksKontroll(indeks,false);           //sjekker indeksen
-        // Node <T> node = finnNode(indeks);               //finner noden
         return finnNode(indeks).verdi;                     // returnerer verdien til noden vi fant
     }
 
@@ -338,6 +337,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         for (int i = 0; i < antall; i++) {
             neste = node.neste;                 //lagrer neste så vi vet hvor vi skal hen neste
             node.neste = null;                  // Setter neste pekeren til null
+            node.forrige=null;
             node = neste;                       // flytter oss videre i lista
             endringer++;
         }
