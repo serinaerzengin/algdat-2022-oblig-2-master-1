@@ -47,21 +47,21 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             throw new NullPointerException("Tabellen a er null!!");
         }
 
-        for(int i = 0; i<a.length; i++){
+        for(T i : a){
 
-            if (a[i]!=null){
+            if (i!=null){
 
                 if (hode==null){ //hvis hode er null så setter vi første verdi. når det kun er en verdi så er det både hode og hale.
-                    Node<T> node= new Node(a[i], null, null);
+                    Node<T> node= new Node(i);
                     hode=node; //node er både hode og hale
                     hale=node;
 
                 }else{ //hvis ikke hode er null så har vi et hode allerde, og da legger vi inn videre
-                   Node<T> haleFørNyNode= hale;
-                    Node<T> node= new Node(a[i], haleFørNyNode, null); /*lager ny node, den verdien som var hale før vil være den ny noden sin forrige
+                   Node<T> haleForNyNode= hale;
+                    Node<T> node= new Node(i, haleForNyNode, null); /*lager ny node, den verdien som var hale før vil være den ny noden sin forrige
                     , og den nye node sin neste vil være null*/
                     hale= node; //setter noden til å være hale
-                    haleFørNyNode.neste=node;//må si at noden som var hale sist har den nye noden som sin neste
+                    haleForNyNode.neste=node;//må si at noden som var hale sist har den nye noden som sin neste
                 }
                 antall++; //øker antall
                 endringer++; //øker endringer
@@ -114,18 +114,18 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             throw new NullPointerException();
         }
         if (tom()){ //hvis den er tom så setter vi første verdi til å vøre hode og hale (kun en verdi).
-            Node<T> nyNode= new Node<T>(verdi,null,null);
+            Node<T> nyNode= new Node<>(verdi,null,null);
             hode=nyNode;
             hale=nyNode;
             antall++; //øker
             endringer++; //øker
             return true;
         }else { //legger inn resten
-            Node<T> halefør = hale; //tar vare på gammel hale slik at vi kan fikse pekeren etterpå
-            Node<T> nyNode = new Node<T>(verdi,halefør,null); //samme forklaring som over
+            Node<T> halefor = hale; //tar vare på gammel hale slik at vi kan fikse pekeren etterpå
+            Node<T> nyNode = new Node<>(verdi,halefor,null); //samme forklaring som over
             antall++; //øker
             endringer++; //øker
-            halefør.neste = nyNode;
+            halefor.neste = nyNode;
             hale = nyNode;
             return true;
         }
@@ -144,29 +144,29 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         else{
             if (tom()){ //hvis tom så er verdien både hode og hale
-                Node<T> nyNode= new Node<T>(verdi,null,null); //forrige og neste til verdien bli null fordi det kun er en verdi
+                Node<T> nyNode= new Node<>(verdi,null,null); //forrige og neste til verdien bli null fordi det kun er en verdi
                 hode=nyNode; //oppdaterer hode
                 hale=nyNode; //oppdaterer hale
                 antall++; //øker
                 endringer++; //øker
             }else if (indeks==0){ // hvis den skal legges inn først så blir dette det nye hode.
-                Node<T> hodefør = hode; //tar vare på den som var hode før
-                Node<T> nyNode= new Node<T>(verdi,null,hodefør); //dens forrige blir null sidne den er hode, og dens neste er den som var hode før
+                Node<T> hodefor = hode; //tar vare på den som var hode før
+                Node<T> nyNode= new Node<>(verdi,null,hodefor); //dens forrige blir null sidne den er hode, og dens neste er den som var hode før
                 hode=nyNode; //oppdaterer hode
-                hodefør.forrige=hode; //må huske å sette at den som var hode før har det nye hode som sin forrige
+                hodefor.forrige=hode; //må huske å sette at den som var hode før har det nye hode som sin forrige
                 antall++; //øker
                 endringer++; //øker
             }else if (indeks==antall){ //hvis den skal legges inn sist så blir det den nye halen. den som var hale før blir den ny halens forrige osv
-                Node<T> halefør = hale; //tar vare på den som var hale før
-                Node<T> nyNode= new Node<T>(verdi,halefør,null); // den som var hale før blir den ny verdien sin forrige, og verdien sin neste peker på null.
+                Node<T> halefor = hale; //tar vare på den som var hale før
+                Node<T> nyNode= new Node<>(verdi,halefor,null); // den som var hale før blir den ny verdien sin forrige, og verdien sin neste peker på null.
                 hale=nyNode; //oppdaterer hale
-                halefør.neste = nyNode; //den nye noden blir den gamle halen sin neste.
+                halefor.neste = nyNode; //den nye noden blir den gamle halen sin neste.
                 antall++; //øker
                 endringer++; //øker
             }else{ // om det ikke er noen av de så skal den legges mellom to noder.
                 Node<T> p = finnNode(indeks);//den som allerde står på indeksen som den skal inn i blir nynodens neste. vi tar vare på denne
                 Node<T> r = p.forrige;//den som står foran p blir nynodens forrige.
-                Node<T> nyNode= new Node<T>(verdi,r,p);
+                Node<T> nyNode= new Node<>(verdi,r,p);
                 p.forrige=nyNode; //oppdaterer forrige og neste peker til p og r
                 r.neste=nyNode;
                 antall++;
@@ -401,14 +401,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public Iterator<T> iterator() {
-        DobbeltLenketListeIterator iterator = new DobbeltLenketListeIterator(); //lager instans av iterator
-        return iterator;
+        return new DobbeltLenketListeIterator(); //lager instans av iterator
+
     }
 
     public Iterator<T> iterator(int indeks) {
         indeksKontroll(indeks,false);           //sjekker at indeksen er gyldig
-        DobbeltLenketListeIterator iterator = new DobbeltLenketListeIterator(indeks);           //lager instans av iterator
-        return iterator;
+        return new DobbeltLenketListeIterator(indeks);           //lager og returnering instans av iterator
     }
 
     private class DobbeltLenketListeIterator implements Iterator<T> {
@@ -448,16 +447,20 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             return verdi;
         }
 
-        @Override
-        public void remove() {
+       // @Override
+       /* public void remove() {
             throw new UnsupportedOperationException();
         }
 
+        */
+
     } // class DobbeltLenketListeIterator
 
-    public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
+    /*public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
         throw new UnsupportedOperationException();
     }
+
+     */
 
 } // class DobbeltLenketListe
 
